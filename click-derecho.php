@@ -1,15 +1,36 @@
 <?php
 /*
 Plugin Name: Menu contextual personalizado
-Plugin URI: http://blog.superjd10.com.ar/2012/07/31/menu-click-derecho-personalizado/
-Description: Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado || BETA SIN PANEL DE ADMINISTRACION
-Version: 0.1
+Plugin URI: http://blog.superjd10.com.ar/menu-contextual-personalizado/
+Description: Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado.
+Version: 1.0
 Author: Superjd10
 Author URI: http://superjd10.com.ar
 */
 
-$texto_pagina_anterior = "Ir a la p&aacute;gina anterior";
-$texto_recargar_pagina = "Recargar p&aacute;gina";
+function menu_contextual_instala(){
+    global $wpdb;
+    $table_name= $wpdb->prefix . "click_derecho";
+        $sql = " CREATE TABLE $table_name(
+        id mediumint( 9 ) NOT NULL AUTO_INCREMENT ,
+        menu_anterior text NOT NULL ,
+        menu_recargar text NOT NULL ,
+        PRIMARY KEY ( `id` )   
+    ) ;";
+    $wpdb->query($sql);
+    $sql = "INSERT INTO $table_name (menu_anterior, menu_recargar) VALUES ('Ir a la p&aacute;gina anterior', 'Recargar p&aacute;gina');";
+    $wpdb->query($sql);
+}
+
+function menu_contextual_desinstala(){
+    global $wpdb;
+    $table_name = $wpdb->prefix . "click_derecho";
+    $sql = "DROP TABLE $table_name";
+    $wpdb->query($sql);
+}
+
+add_action('activate_click-derecho-beta/click-derecho.php','menu_contextual_instala');
+add_action('deactivate_click-derecho-beta/click-derecho.php', 'menu_contextual_desinstala');
 
 add_action('plugin_action_links','plugin_action', 10, 2);
 
@@ -31,8 +52,30 @@ function menu_contextual_panel() {
 }
 
 function menu_contextual_admin() {
+    global $wpdb;
+        $table_name = $wpdb->prefix . "click_derecho";
+    if(isset($_POST['contentido_menu_anterior']) && isset($_POST['contentido_menu_recargar'])){
+        $contentido_menu_anterior = $_POST['contentido_menu_anterior'];
+        $contentido_menu_recargar = $_POST['contentido_menu_recargar'];
+        echo "<div id='setting-error-settings_updated' class='updated settings-error'> 
+<p><strong>Opciones guardadas.</strong></p></div> ";
+    }else{
+        $contentido_menu_anterior = $wpdb->get_var("SELECT menu_anterior FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+        $contentido_menu_recargar = $wpdb->get_var("SELECT menu_recargar FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+    }
+    echo '<h2>Textos del menu contextual</h2><br />'
+        .'<form method="post" action="" id="click_derecho"><table border="1" class="form-table">'
+        .'<tbody><tr><th><label>Texto de "menu anterior":</label></th><th><label>Texto de "menu recargar":</label></th></tr><tr><td>'
+        .'<textarea name="contentido_menu_anterior" cols="70" rows="2" id="contentido_menu_anterior" class="large-text code">'.$contentido_menu_anterior.'</textarea>'
+        .'</td><td><textarea name="contentido_menu_recargar" cols="70" rows="2" id="contentido_menu_recargar" class="large-text code">'.$contentido_menu_recargar.'</textarea>'
+        .'</td></tr></tbody></table><br><input type="submit" name="enviar" value="Guardar cambios" class="button-primary" id="submit" />'
+        .'</form>';
 
-echo "<div id='setting-error-settings_updated' class='updated settings-error'> <strong><p> Muy pronto.... </strong></p></div>";
+    if(isset($_POST['contentido_menu_anterior']) && isset($_POST['contentido_menu_recargar'])){  
+    $sql = "UPDATE `".$table_name."` SET `menu_anterior` = '{$_POST['contentido_menu_anterior']}', `menu_recargar` = '{$_POST['contentido_menu_recargar']}' WHERE `id`=1;";
+         $wpdb->query($sql);
+   }
+
 }
 
 function llamar_a_jquery() {
@@ -221,13 +264,16 @@ $(document).bind("contextmenu", function(e){
 }
 
 function menu_contextual_html() { 
-global $texto_pagina_anterior, $texto_recargar_pagina;
+            global $wpdb;
+        $table_name = $wpdb->prefix . "click_derecho";
+            $anterior = $wpdb->get_var("SELECT menu_anterior FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+            $recargar = $wpdb->get_var("SELECT menu_recargar FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
 ?>
 <!-- Aqui esta el menu contextual, oculto por defecto -->
 	<div id="menuclickderecho">
 		<ul>
-			<li id="menu_anterior"> <?php echo $texto_pagina_anterior; ?></li>
-			<li id="menu_recargar"> <?php echo $texto_recargar_pagina; ?></li>
+			<li id="menu_anterior"> <?php echo $anterior ?></li>
+			<li id="menu_recargar"> <?php echo $recargar ?></li>
 			<li id="menu_web"><a href="<?php echo home_url(); ?>">Volver al inicio</a></li>
 		</ul>
 	</div>

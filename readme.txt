@@ -3,6 +3,7 @@ Contributors: superjd10
 Donate link: http://superjd10.com.ar
 Tags: click derecho, right click, click, contextual menu
 Requires at least: 2.0.2
+Tested up to: 3.4.1
 
 Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado. BETA
 
@@ -22,7 +23,7 @@ Now, go to the "Plugins" menu in your Wordpress Dashboard and click on "activate
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Preguntas frecuentes =
 
 -Como desactivo el plugin?
 Ve a la pestaña "Plugins" y da click en desactivar.
@@ -31,9 +32,9 @@ Ve a la pestaña "Plugins" y da click en desactivar.
 Aun no, pronto podras...
 
 -Puedo cambiar lo que dice el texto del menu?
-Pronto podras :)
+Lo puedes cambiar /wp-admin/admin.php?page=menu_contextual
 
-Pregunta en los [comentarios](http://blog.superjd10.com.ar/menu-click-derecho)
+Pregunta en los [comentarios](http://blog.superjd10.com.ar/menu-contextual-personalizado/#comments)
 
 
 -How desactivate the plugin?
@@ -43,18 +44,22 @@ Go to the "Plugins" menu and click on desactivate.
 No, for the momment.
 
 -Can I change the text of the menu items?
-Coming soon :)
+You can change it on /wp-admin/admin.php?page=menu_contextual
 
-Ask in the [comments](http://blog.superjd10.com.ar/menu-click-derecho)
+Ask in the [comentarios](http://blog.superjd10.com.ar/menu-contextual-personalizado/#comments)
 
 == Screenshots ==
 
-Coming soon
+1. Live Demo / Demo en vivo.
 
 == Changelog ==
 = 0.1 =
 *Plugin creado
 *Panel de administracion hecho, con un simple mensaje de "Muy Pronto"
+
+= 1.0 =
+*Añadido panel de administración (con conexión a la base de datos)
+*Capacidad de edición del texto del menú.
 
 == Twitter ==
 
