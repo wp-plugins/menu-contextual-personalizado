@@ -3,7 +3,7 @@
 Plugin Name: Menu contextual personalizado
 Plugin URI: http://blog.superjd10.com.ar/menu-contextual-personalizado/
 Description: Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado.
-Version: 1.0
+Version: 1.1
 Author: Superjd10
 Author URI: http://superjd10.com.ar
 */
@@ -29,8 +29,8 @@ function menu_contextual_desinstala(){
     $wpdb->query($sql);
 }
 
-add_action('activate_click-derecho-beta/click-derecho.php','menu_contextual_instala');
-add_action('deactivate_click-derecho-beta/click-derecho.php', 'menu_contextual_desinstala');
+add_action('activate_menu-contextual-personalizado/click-derecho.php','menu_contextual_instala');
+add_action('deactivate_menu-contextual-personalizado/click-derecho.php', 'menu_contextual_desinstala');
 
 add_action('plugin_action_links','plugin_action', 10, 2);
 
@@ -47,7 +47,7 @@ add_action('admin_menu', 'menu_contextual_panel');
 
 function menu_contextual_panel() {
 	if ( is_super_admin() ) {
-	add_utility_page('Opciones del Menu Contexual', 'Menu Contextual', 'manage_options', 'menu_contextual', 'menu_contextual_admin', plugins_url() . '/click-derecho/mouse-select.png');
+	add_utility_page('Opciones del Menu Contexual', 'Menu Contextual', 'manage_options', 'menu_contextual', 'menu_contextual_admin', plugins_url() . '/menu-contextual-personalizado/mouse-select.png');
 	}
 }
 
