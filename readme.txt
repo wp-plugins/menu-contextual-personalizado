@@ -5,7 +5,7 @@ Tags: click derecho, right click, click, contextual menu
 Requires at least: 2.0.2
 Tested up to: 3.4.1
 
-Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado. BETA
+Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado.
 
 == Description ==
 
