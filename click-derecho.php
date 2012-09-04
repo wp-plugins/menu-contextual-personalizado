@@ -3,7 +3,7 @@
 Plugin Name: Menu contextual personalizado
 Plugin URI: http://blog.superjd10.com.ar/menu-contextual-personalizado/
 Description: Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado.
-Version: 1.1.1
+Version: 1.2
 Author: Superjd10
 Author URI: http://superjd10.com.ar
 */
@@ -15,82 +15,13 @@ function menu_contextual_instala(){
         id mediumint( 9 ) NOT NULL AUTO_INCREMENT ,
         menu_anterior text NOT NULL ,
         menu_recargar text NOT NULL ,
+        css_estilos text NOT NULL ,
+        javascript_scripts text NOT NULL ,
         PRIMARY KEY ( `id` )   
     ) ;";
     $wpdb->query($sql);
-    $sql = "INSERT INTO $table_name (id, menu_anterior, menu_recargar) VALUES ('1', 'Ir a la p&aacute;gina anterior', 'Recargar p&aacute;gina');";
-    $wpdb->query($sql);
-}
 
-function menu_contextual_desinstala(){
-    global $wpdb;
-    $table_name = $wpdb->prefix . "click_derecho";
-    $sql = "DROP TABLE $table_name";
-    $wpdb->query($sql);
-}
-
-add_action('activate_menu-contextual-personalizado/click-derecho.php','menu_contextual_instala');
-add_action('deactivate_menu-contextual-personalizado/click-derecho.php', 'menu_contextual_desinstala');
-
-add_action('plugin_action_links','plugin_action', 10, 2);
-
-    function plugin_action($links, $file) {
-      if ($file == plugin_basename(dirname(__FILE__).'/click-derecho.php')) {
-      $settings_link = "<a href='admin.php?page=menu_contextual'>" .
-        __('Opciones', 'menu_contextual') . "</a>";
-      array_unshift( $links, $settings_link );
-      }
-      return $links;
-    }
-
-add_action('admin_menu', 'menu_contextual_panel');
-
-function menu_contextual_panel() {
-	if ( is_super_admin() ) {
-	add_utility_page('Opciones del Menu Contexual', 'Menu Contextual', 'manage_options', 'menu_contextual', 'menu_contextual_admin', plugins_url() . '/menu-contextual-personalizado/mouse-select.png');
-	}
-}
-
-function menu_contextual_admin() {
-    global $wpdb;
-        $table_name = $wpdb->prefix . "click_derecho";
-    if(isset($_POST['contentido_menu_anterior']) && isset($_POST['contentido_menu_recargar'])){
-        $contentido_menu_anterior = $_POST['contentido_menu_anterior'];
-        $contentido_menu_recargar = $_POST['contentido_menu_recargar'];
-        echo "<div id='setting-error-settings_updated' class='updated settings-error'> 
-<p><strong>Opciones guardadas.</strong></p></div> ";
-    }else{
-        $contentido_menu_anterior = $wpdb->get_var("SELECT menu_anterior FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
-        $contentido_menu_recargar = $wpdb->get_var("SELECT menu_recargar FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
-    }
-    echo '<h2>Textos del menu contextual</h2><br />'
-        .'<form method="post" action="" id="click_derecho"><table border="1" class="form-table">'
-        .'<tbody><tr><th><label>Texto de "menu anterior":</label></th><th><label>Texto de "menu recargar":</label></th></tr><tr><td>'
-        .'<textarea name="contentido_menu_anterior" cols="70" rows="2" id="contentido_menu_anterior" class="large-text code">'.$contentido_menu_anterior.'</textarea>'
-        .'</td><td><textarea name="contentido_menu_recargar" cols="70" rows="2" id="contentido_menu_recargar" class="large-text code">'.$contentido_menu_recargar.'</textarea>'
-        .'</td></tr></tbody></table><br><input type="submit" name="enviar" value="Guardar cambios" class="button-primary" id="submit" />'
-        .'</form>';
-
-    if(isset($_POST['contentido_menu_anterior']) && isset($_POST['contentido_menu_recargar'])){  
-    $sql = "UPDATE `".$table_name."` SET `menu_anterior` = '{$_POST['contentido_menu_anterior']}', `menu_recargar` = '{$_POST['contentido_menu_recargar']}' WHERE `id`=1;";
-         $wpdb->query($sql);
-   }
-
-}
-
-function llamar_a_jquery() {
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js');
-    wp_enqueue_script( 'jquery' );
-}    
- 
-add_action('wp_enqueue_scripts', 'llamar_a_jquery');
-
-function menu_contextual_estilos_y_javascript() {
-
-?>
-
-<style type="text/css">
+    $estilos_para_la_tabla = '<style type="text/css">
 
 /* ----------------------------
 simple reset
@@ -203,9 +134,9 @@ vertical-align:baseline;
 	background-repeat: no-repeat;
 }
 
-</style>
-
-<script type="text/javascript">
+</style>';
+	
+	$javascript_para_la_tabla = '<script type="text/javascript">
 
 //Cuando el documento esta listo...
 $(document).ready(function(){
@@ -216,7 +147,7 @@ var menu = $("#"+menuId); //Aca por medio de un selector de jQuery se dice con c
 
 //EVITAMOS que se muestre el MENU CONTEXTUAL del sistema operativo o del navegador al hacer CLICK con el BOTON DERECHO del RATON
 $(document).bind("contextmenu", function(e){
-	menu.css({'display':'block', 'left':e.pageX, 'top':e.pageY});
+	menu.css({"display":"block", "left":e.pageX, "top":e.pageY});
 	return false;
 });
 	
@@ -258,9 +189,131 @@ $(document).bind("contextmenu", function(e){
 
 });	
 
-</script>
+</script>';
+    $sql = "INSERT INTO $table_name (id, menu_anterior, menu_recargar, css_estilos, javascript_scripts) VALUES ('1', 'Ir a la p&aacute;gina anterior', 'Recargar p&aacute;gina', '$estilos_para_la_tabla', '$javascript_para_la_tabla');";
+    $wpdb->query($sql);
+}
 
-<?php
+function menu_contextual_desinstala(){
+    global $wpdb;
+    $table_name = $wpdb->prefix . "click_derecho";
+    $sql = "DROP TABLE $table_name";
+    $wpdb->query($sql);
+}
+
+add_action('activate_menu-contextual-personalizado/click-derecho.php','menu_contextual_instala');
+add_action('deactivate_menu-contextual-personalizado/click-derecho.php', 'menu_contextual_desinstala');
+
+add_action('plugin_action_links','plugin_action', 10, 2);
+
+    function plugin_action($links, $file) {
+      if ($file == plugin_basename(dirname(__FILE__).'/click-derecho.php')) {
+      $settings_link = "<a href='admin.php?page=menu_contextual'>" .
+        __('Opciones', 'menu_contextual') . "</a>";
+      array_unshift( $links, $settings_link );
+      }
+      return $links;
+    }
+
+add_action('admin_menu', 'menu_contextual_panel');
+
+function menu_contextual_panel() {
+	if ( is_super_admin() ) {
+	add_utility_page('Opciones del Menu Contextual', 'Menu Contextual', 'manage_options', 'menu_contextual', 'menu_contextual_admin', plugins_url() . '/menu-contextual-personalizado/mouse-select.png');
+	}
+}
+
+function menu_contextual_admin() {
+    global $wpdb;
+        $table_name = $wpdb->prefix . "click_derecho";
+    if(isset($_POST['contenido_menu_anterior']) && isset($_POST['contenido_menu_recargar']) && isset($_POST['contenido_estilos_css']) && isset($_POST['contenido_scripts_javascripts'])){
+        $contenido_menu_anterior = $_POST['contenido_menu_anterior'];
+        $contenido_menu_recargar = $_POST['contenido_menu_recargar'];
+        $contenido_estilos_css = $_POST['contenido_estilos_css'];
+        $contenido_scripts_javascripts = $_POST['contenido_scripts_javascripts'];
+        echo "<div id='setting-error-settings_updated' class='updated settings-error'> 
+<p><strong>Opciones guardadas.</strong></p></div> ";
+    }else{
+        $contenido_menu_anterior = $wpdb->get_var("SELECT menu_anterior FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+        $contenido_menu_recargar = $wpdb->get_var("SELECT menu_recargar FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+        $contenido_estilos_css = $wpdb->get_var("SELECT css_estilos FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+        $contenido_scripts_javascripts = $wpdb->get_var("SELECT javascript_scripts FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+    }
+    ?>
+    <br>
+    <div class="wrap">
+    <div id="icon-options-general" class="icon32"><br /></div><h2>Opciones &raquo; Menu contextual personalizado</h2>
+    <form method="post" action="" id="click_derecho">
+    <h4 id="edittexts">Textos del menu contextual</h4><br>
+		<div class="metabox-holder">
+			<div class="postbox">
+  					<h3><label for="contenido_menu_anterior">Texto de "menu anterior":</label></h3>
+  					<p>Aqui puedes editar el texto de lo que dira en "ir a la pagina anterior".</p>
+  					<p><textarea name="contenido_menu_anterior" style="resize: none;" cols="70" rows="2" id="contenido_menu_anterior" class="large-text code"><?php echo $contenido_menu_anterior; ?></textarea></p>
+		    		<div class="fsclear"></div>
+		    </div>
+		</div>
+	<br>
+		<div class="metabox-holder">
+			<div class="postbox">
+	  				<h3><label for="contenido_menu_recargar">Texto de "recargar p&aacute;gina":</label></h3>
+	  				<p>Aqui puedes editar el texto de lo que dice en "ir a la pagina siguiente".</p>
+		    		<p><textarea name="contenido_menu_recargar" style="resize: none;" cols="70" rows="2" id="contenido_menu_recargar" class="large-text code"><?php echo $contenido_menu_recargar; ?></textarea></p>
+		        	<div class="fsclear"></div>
+		    </div>
+		</div>
+
+	<h4 id="editcodes">Estilos y javascript del menu contextual <small>(No edites nada de aqui si no estas 100% seguro de lo que haces)</small></h4><br>
+		<div class="metabox-holder">
+			<div class="postbox">
+  				<h3><label for="contenido_estilos_css">Estilos del menu contextual:</label></h3>
+  				<p>Aca puedes agregarles tus propios estilos al menu, debes tener cuidado de no borrar etiquetas importantes o el menu dejara de funcionar.</p>
+				<p><textarea name="contenido_estilos_css" cols="70" rows="25" id="contenido_estilos_css" class="large-text code"><?php echo $contenido_estilos_css; ?></textarea></p>
+				<div class="fsclear"></div>
+		    </div>
+		</div>
+		<div class="metabox-holder">
+			<div class="postbox">
+  				<h3><label for="contenido_scripts_javascripts">Scripts del menu contextual:</label></h3>
+  				<p>Aqui estan los javascripts fundamentales del menu, aconsejo no tocar esto a menos que sepas mucho de jQuery.</p>
+		    	<p><textarea name="contenido_scripts_javascripts" cols="70" rows="25" id="contenido_scripts_javascripts" class="large-text code"><?php echo $contenido_scripts_javascripts; ?></textarea></p>
+				<div class="fsclear"></div>
+	   	    </div>
+		</div>
+	<br>
+
+	<input type="submit" name="enviar" value="Guardar cambios" class="button-primary" id="submit" />'
+    </form>
+    <br>
+    <br>
+    <br>
+    <small><b>Hecho por <a href="http://superjd10.com.ar">Superjd10</a></b></small>
+    </div>
+    <?php
+
+    if(isset($_POST['contenido_menu_anterior']) && isset($_POST['contenido_menu_recargar']) && isset($_POST['contenido_estilos_css']) && isset($_POST['contenido_scripts_javascripts'])){  
+    $sql = "UPDATE `".$table_name."` SET `menu_anterior` = '{$_POST['contenido_menu_anterior']}', `menu_recargar` = '{$_POST['contenido_menu_recargar']}', `css_estilos` = '{$_POST['contenido_estilos_css']}', `javascript_scripts` = '{$_POST['contenido_scripts_javascripts']}' WHERE `id`=1;";
+         $wpdb->query($sql);
+   }
+
+}
+
+function llamar_a_jquery() {
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js');
+    wp_enqueue_script( 'jquery' );
+}    
+ 
+add_action('wp_enqueue_scripts', 'llamar_a_jquery');
+
+function menu_contextual_estilos_y_javascript() {
+            global $wpdb;
+        $table_name = $wpdb->prefix . "click_derecho";
+            $estilos_a_mostrar = $wpdb->get_var("SELECT css_estilos FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+            $scripts_a_mostrar = $wpdb->get_var("SELECT javascript_scripts FROM $table_name ORDER BY RAND() LIMIT 0, 1; " );
+		echo $estilos_a_mostrar;
+		echo $scripts_a_mostrar;
+
 }
 
 function menu_contextual_html() { 

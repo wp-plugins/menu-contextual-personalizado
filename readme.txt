@@ -29,7 +29,7 @@ Now, go to the "Plugins" menu in your Wordpress Dashboard and click on "activate
 Ve a la pestaña "Plugins" y da click en desactivar.
 
 -Puedo agregarle mi propio estilo al menu?
-Aun no, pronto podras...
+Si, ve a las opciones del menu contextual y podras (ten cuidado al editar los estilos)
 
 -Puedo cambiar lo que dice el texto del menu?
 Lo puedes cambiar /wp-admin/admin.php?page=menu_contextual
@@ -41,7 +41,7 @@ Pregunta en los [comentarios](http://blog.superjd10.com.ar/menu-contextual-perso
 Go to the "Plugins" menu and click on desactivate.
 
 -Can I add my custom style to the menu?
-No, for the momment.
+Yes, go to the plugin options and you can (Make changes with precaution.)
 
 -Can I change the text of the menu items?
 You can change it on /wp-admin/admin.php?page=menu_contextual
@@ -51,21 +51,27 @@ Ask in the [comentarios](http://blog.superjd10.com.ar/menu-contextual-personaliz
 == Screenshots ==
 
 1. Live Demo / Demo en vivo.
+2. Panel de administración actual (v1.2)
 
 == Changelog ==
-= 0.1 =
-*Plugin creado
-*Panel de administracion hecho, con un simple mensaje de "Muy Pronto"
 
-= 1.0 =
-*Añadido panel de administración (con conexión a la base de datos)
-*Capacidad de edición del texto del menú.
-
-= 1.1 =
-*Intento fallido de arreglar un error
+= 1.2 =
+* Desactivar y volver a activar luego de la actualizacion (si estas actualizando).
+* Agregadas las opciones de editar el javascript y los estilos del menu.
 
 = 1.1.1 =
-*Bug fixed: Error para cambiar el texto del menu que hacia que no se pudiera ver o modificar lo que decia.
+* Bug fixed: Error para cambiar el texto del menu que hacia que no se pudiera ver o modificar lo que decia.
+
+= 1.1 =
+* Intento fallido de arreglar un error
+
+= 1.0 =
+* Añadido panel de administración (con conexión a la base de datos)
+* Capacidad de edición del texto del menú.
+
+= 0.1 =
+* Plugin creado
+* Panel de administracion hecho, con un simple mensaje de "Muy Pronto"
 
 == Twitter ==
 
