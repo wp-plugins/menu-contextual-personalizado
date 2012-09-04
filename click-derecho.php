@@ -3,7 +3,7 @@
 Plugin Name: Menu contextual personalizado
 Plugin URI: http://blog.superjd10.com.ar/menu-contextual-personalizado/
 Description: Con este plugin desactivas el click derecho de tu sitio y muestras en su lugar un menu personalizado.
-Version: 1.1
+Version: 1.1.1
 Author: Superjd10
 Author URI: http://superjd10.com.ar
 */
@@ -18,7 +18,7 @@ function menu_contextual_instala(){
         PRIMARY KEY ( `id` )   
     ) ;";
     $wpdb->query($sql);
-    $sql = "INSERT INTO $table_name (menu_anterior, menu_recargar) VALUES ('Ir a la p&aacute;gina anterior', 'Recargar p&aacute;gina');";
+    $sql = "INSERT INTO $table_name (id, menu_anterior, menu_recargar) VALUES ('1', 'Ir a la p&aacute;gina anterior', 'Recargar p&aacute;gina');";
     $wpdb->query($sql);
 }
 

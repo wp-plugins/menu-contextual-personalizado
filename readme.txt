@@ -15,10 +15,10 @@ With this plugin you can replace the contextual menu (right click menu) for a co
 
 == Installation ==
 
-Para instalar, descarga el zip del plugin y subelo en tu escritorio usando la siguiente url: http://tusitio.com/wp-admin/plugin-install.php?tab=upload o busca en /wp-admin/plugin-install.php "Menu contextual personalizado" hecho por Superjd10. Tambien puedes descargar y subirlo via FTP a la carpeta /wp-content/plugins.
+Para instalar, descarga el zip del plugin y subelo en tu escritorio usando la siguiente url: [click aqui](plugin-install.php?tab=upload) o busca [aqui](plugin-install.php) "Menu contextual personalizado" hecho por Superjd10. Tambien puedes descargar y subirlo via FTP a la carpeta /wp-content/plugins.
 Ahora, ve a el menu "Plugins" en el escritorio de tu WordPress y da click en "Activar".
 
-For install, download the zip of the plugin and upload it on your dashboard with the following url: http://yoursite.com/wp-admin/plugin-install.php?tab=upload or search in /wp-admin/plugin-install.php "Menu contextual personalizado" maked by Superjd10. You can download and upload via FTP to the folder: /wp-content/plugins.
+For install, download the zip of the plugin and upload it on your dashboard with the following url: [click here](plugin-install.php?tab=upload) or search [here](plugin-install.php) "Menu contextual personalizado" maked by Superjd10. You can download and upload via FTP to the folder: /wp-content/plugins.
 Now, go to the "Plugins" menu in your Wordpress Dashboard and click on "activate".
 
 == Frequently Asked Questions ==
@@ -60,6 +60,12 @@ Ask in the [comentarios](http://blog.superjd10.com.ar/menu-contextual-personaliz
 = 1.0 =
 *Añadido panel de administración (con conexión a la base de datos)
 *Capacidad de edición del texto del menú.
+
+= 1.1 =
+*Intento fallido de arreglar un error
+
+= 1.1.1 =
+*Bug fixed: Error para cambiar el texto del menu que hacia que no se pudiera ver o modificar lo que decia.
 
 == Twitter ==
 
